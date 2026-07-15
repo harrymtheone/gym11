@@ -28,7 +28,6 @@
 - `patchelf`、C 编译器 （运行不需要，仅开发使用）
 
 
-
 ## 安装
 
 在仓库根目录执行：
@@ -52,14 +51,31 @@ python -m pip install -e isaacgym/python
 
 仓库已包含生成好的 CPython 3.11 绑定，普通安装不需要编译。
 
-### 设置运行时路径：
 
-```bash
-export PYTHONPATH="$PWD/isaacgym/python${PYTHONPATH:+:$PYTHONPATH}"
-export LD_LIBRARY_PATH="$CONDA_PREFIX/lib:$PWD/isaacgym/python/isaacgym/_bindings/linux-x86_64${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
+### 设置环境变量
+
+如果出现
+
+```
+libpython3.11.so.1.0: cannot open shared object file: No such file or directory
 ```
 
-建议将这两个变量写入 Conda 环境的激活脚本，而不是设置为全局系统变量。
+需要先设置环境变量
+
+
+```bash
+export LD_LIBRARY_PATH="$CONDA_PREFIX/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
+```
+
+如果双显卡系统出现 GUI 黑屏，或日志包含 `radv/amdgpu`、`context is lost`，
+可尝试强制使用 NVIDIA：
+
+```bash
+export VK_DRIVER_FILES=/usr/share/vulkan/icd.d/nvidia_icd.json
+export __NV_PRIME_RENDER_OFFLOAD=1
+export __GLX_VENDOR_LIBRARY_NAME=nvidia
+```
+
 
 ## 快速验证
 
@@ -154,8 +170,7 @@ python tools/py311_binding/patch_numpy2.py \
 选择实验绑定并设置运行时路径：
 
 ```bash
-export PYTHONPATH="$PWD/isaacgym/python${PYTHONPATH:+:$PYTHONPATH}"
-export LD_LIBRARY_PATH="$CONDA_PREFIX/lib:$PWD/isaacgym/python/isaacgym/_bindings/linux-x86_64${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
+export LD_LIBRARY_PATH="$CONDA_PREFIX/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
 export ISAACGYM_GYM_BINDING="$PWD/build/py311-numpy2/gym_311.so"
 ```
 
