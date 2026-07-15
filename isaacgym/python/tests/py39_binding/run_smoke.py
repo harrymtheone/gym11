@@ -48,7 +48,13 @@ def main():
     parser.add_argument("--gpu", action="store_true")
     parser.add_argument("--cycles", type=int, default=20)
     parser.add_argument("--steps", type=int, default=100)
+    parser.add_argument("--require-python")
     args = parser.parse_args()
+    active_python = f"{sys.version_info.major}.{sys.version_info.minor}"
+    if args.require_python and args.require_python != active_python:
+        parser.error(
+            f"requires Python {args.require_python}, running {active_python}"
+        )
 
     started = time.monotonic()
     gym = check_api()

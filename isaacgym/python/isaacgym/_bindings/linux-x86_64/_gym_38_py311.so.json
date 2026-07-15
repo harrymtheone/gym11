@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "experimental": true,
+  "target_python": "3.11",
+  "mode": "integrated",
+  "source": "/home/harry/Documents/isaacgym/isaacgym/python/isaacgym/_bindings/linux-x86_64/gym_38.so",
+  "destination": "/home/harry/Documents/isaacgym/isaacgym/python/isaacgym/_bindings/linux-x86_64/_gym_38_py311.so",
+  "source_sha256": "447166f3a11439b39c71284f9ba6c3a40e34e29a9f556f549469a439ff2717a5",
+  "output_sha256": "20778f080d6e6061a4416af052a8200989d34cf5987abd0c9231c34c85580ff3",
+  "patches": {
+    "version_guard": [
+      {
+        "offset": "0x76d54",
+        "before": "0f85be000000",
+        "after": "909090909090"
+      },
+      {
+        "offset": "0x76d64",
+        "before": "0f86ae000000",
+        "after": "909090909090"
+      }
+    ],
+    "cpython311_type_layout": [],
+    "needed": {
+      "before": "libpython3.8.so.1.0",
+      "after": "libpython3.11.so.1.0"
+    }
+  },
+  "verification": {
+    "needed": [
+      "libcarb.so",
+      "libpython3.11.so.1.0",
+      "libstdc++.so.6",
+      "libm.so.6",
+      "libgcc_s.so.1",
+      "libc.so.6"
+    ],
+    "python_init": "PyInit_gym_38"
+  }
+}

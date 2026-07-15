@@ -283,3 +283,7 @@ GPU；输出已经明确显示 Physics Device 为 `cuda:0`。
 4. 为生成脚本增加原始 binary SHA-256 白名单，进一步避免误补丁。
 5. 若升级到 Python 3.10 或更高版本，应重新分析 CPython 对象布局，不能
    直接复用本迁移补丁。
+
+Python 3.11 已按独立 ABI profile 完成分析和验证，详见
+[`../py311-binding/README.md`](../py311-binding/README.md)。它没有复用
+Python 3.9 的 heap-type 偏移补丁。
