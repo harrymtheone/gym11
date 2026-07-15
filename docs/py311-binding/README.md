@@ -49,12 +49,12 @@ Create the target environment:
 
 ```bash
 conda create -y -n isaacgym-py311 \
-  python=3.11 pip numpy "scipy<1.14" patchelf ninja
+  python=3.11 pip numpy scipy patchelf ninja
 conda activate isaacgym-py311
 ```
 
-SciPy must remain below 1.14 because Isaac Gym calls the removed
-`scipy.interpolate.interp2d` API.
+The local `terrain_utils.py` uses `RegularGridInterpolator`, so current SciPy
+versions are supported and no `<1.14` pin is required.
 
 Build both native artifacts:
 
@@ -78,7 +78,28 @@ python -c "from isaacgym import gymapi; print(gymapi.acquire_gym())"
 `gymapi.py` automatically maps CPython 3.11 to `gym_311.so`; no loader override
 is needed for the integrated artifact.
 
-## Tests
+## One-command regression
+
+Build the binding and run the CPU API, simulation, lifecycle stress, terrain,
+and gymtorch checks:
+
+```bash
+python tools/py311_binding/run_regression.py
+```
+
+Add GPU PhysX, GPU pipeline, and GPU terrain checks:
+
+```bash
+python tools/py311_binding/run_regression.py --gpu
+```
+
+The runner requires CPython 3.11, sets child-process Python and native library
+paths automatically, validates the generated payload against its manifest,
+and rejects missing build tools or an unsupported platform before testing.
+Use `--skip-build` to test existing artifacts, `--skip-gymtorch` when PyTorch
+is unavailable, and `--help` for stress sizing options.
+
+## Individual tests
 
 ```bash
 python isaacgym/python/tests/py39_binding/run_smoke.py \

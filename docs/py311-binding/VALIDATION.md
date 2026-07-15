@@ -30,6 +30,7 @@ The trampoline hash can vary with the compiler.
 
 ## Results
 
+- PASS: one-command clean rebuild and manifest/hash verification
 - PASS: all Python C API symbols imported by `gym_38.so` are exported by the
   tested `libpython3.11.so.1.0`
 - PASS: pybind11 module initialization and type registration
@@ -51,5 +52,19 @@ otherwise continuous viewer loop after 20 seconds.
 ## Resolved non-binding failure
 
 The first terrain run failed because SciPy 1.14 removed `interp2d`, which
-Preview 4 calls from `terrain_utils.py`. Pinning `scipy<1.14` restored the
-legacy behavior; `setup.py` now encodes this upper bound.
+Preview 4 called from `terrain_utils.py`. The implementation now uses
+`RegularGridInterpolator`, and `setup.py` no longer needs a SciPy upper bound.
+
+## Automated command
+
+The complete build and CPU suite passes with:
+
+```bash
+python tools/py311_binding/run_regression.py
+```
+
+The GPU suite passes with:
+
+```bash
+python tools/py311_binding/run_regression.py --skip-build --gpu
+```
