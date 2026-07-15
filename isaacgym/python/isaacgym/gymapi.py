@@ -14,6 +14,7 @@ Gym bindings wrapper module
 from __future__ import print_function, division, absolute_import
 
 import importlib
+import importlib.util
 import json
 import sys
 import os
@@ -45,9 +46,14 @@ def _import_active_version():
         platform = "linux-x86_64"
         ext = "so"
 
-    module_name = "gym_%d%d" % (major, minor)
     module_dir = os.path.join(lib_dir, platform)
-    module_path = os.path.join(module_dir, "%s.%s" % (module_name, ext))
+    binding_override = os.environ.get("ISAACGYM_GYM_BINDING")
+    if binding_override:
+        module_path = os.path.realpath(binding_override)
+        module_name = os.path.splitext(os.path.basename(module_path))[0]
+    else:
+        module_name = "gym_%d%d" % (major, minor)
+        module_path = os.path.join(module_dir, "%s.%s" % (module_name, ext))
     package_path = "isaacgym._bindings.%s.%s" % (platform, module_name)
 
     # print(module_name)
@@ -60,7 +66,15 @@ def _import_active_version():
         os.environ["CARB_APP_PATH"] = _format_path(module_dir)
 
         print("Importing module '%s' (%s)" % (module_name, module_path))
-        module = importlib.import_module(package_path)
+        if binding_override:
+            spec = importlib.util.spec_from_file_location(package_path, module_path)
+            if spec is None or spec.loader is None:
+                raise ImportError("Unable to load Isaac Gym binding from %s" % module_path)
+            module = importlib.util.module_from_spec(spec)
+            sys.modules[package_path] = module
+            spec.loader.exec_module(module)
+        else:
+            module = importlib.import_module(package_path)
         # https://stackoverflow.com/questions/28826127/dynamically-load-all-names-from-module-in-python
         # Now extract the attributes into the globals() namespace, as 'from ... import *' would do.
         # A module can define __all__ to explicitly allow all symbols to be imported.

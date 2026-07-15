@@ -1,0 +1,98 @@
+{
+  "schema_version": 1,
+  "experimental": true,
+  "module": "gym",
+  "mode": "integrated",
+  "source": "/home/harry/Documents/isaacgym/isaacgym/python/isaacgym/_bindings/linux-x86_64/gym_38.so",
+  "destination": "/home/harry/Documents/isaacgym/isaacgym/python/isaacgym/_bindings/linux-x86_64/_gym_38_py39.so",
+  "source_sha256": "447166f3a11439b39c71284f9ba6c3a40e34e29a9f556f549469a439ff2717a5",
+  "output_sha256": "75cec9f8b42fdcbf5e687c815113b16d167a25f08b339c8489f7d7050b4a8f74",
+  "replacements": {
+    "libpython3.8_to_3.9": 1,
+    "runtime_version_3.8_to_3.9": 2,
+    "module_38_to_39": 0,
+    "cpython39_type_layout": [
+      {
+        "offset": "0xa1ca2",
+        "before": "48898350030000",
+        "after": "48898348030000"
+      },
+      {
+        "offset": "0xa1cb0",
+        "before": "48898360030000",
+        "after": "48898358030000"
+      },
+      {
+        "offset": "0xa1d80",
+        "before": "48c78350030000",
+        "after": "48c78348030000"
+      },
+      {
+        "offset": "0xa2e2d",
+        "before": "48898550030000",
+        "after": "48898548030000"
+      },
+      {
+        "offset": "0xa2e3b",
+        "before": "48898560030000",
+        "after": "48898558030000"
+      },
+      {
+        "offset": "0xa2f0e",
+        "before": "48898550030000",
+        "after": "48898548030000"
+      },
+      {
+        "offset": "0xa2f1c",
+        "before": "48898560030000",
+        "after": "48898558030000"
+      },
+      {
+        "offset": "0xa30c0",
+        "before": "48c78550030000",
+        "after": "48c78548030000"
+      },
+      {
+        "offset": "0xa30d0",
+        "before": "48c78550030000",
+        "after": "48c78548030000"
+      },
+      {
+        "offset": "0xa43ca",
+        "before": "49898750030000",
+        "after": "49898748030000"
+      },
+      {
+        "offset": "0xa43df",
+        "before": "49898760030000",
+        "after": "49898758030000"
+      },
+      {
+        "offset": "0xa44c8",
+        "before": "498d8740030000",
+        "after": "498d8738030000"
+      },
+      {
+        "offset": "0xa44dd",
+        "before": "49898740030000",
+        "after": "49898738030000"
+      },
+      {
+        "offset": "0xa44eb",
+        "before": "49898748030000",
+        "after": "49898740030000"
+      }
+    ]
+  },
+  "verification": {
+    "needed": [
+      "libcarb.so",
+      "libpython3.9.so.1.0",
+      "libstdc++.so.6",
+      "libm.so.6",
+      "libgcc_s.so.1",
+      "libc.so.6"
+    ],
+    "python_init": "PyInit_gym_38"
+  }
+}
