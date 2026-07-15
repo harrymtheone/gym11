@@ -2,3 +2,10 @@ build/
 __pycache__/
 *.py[cod]
 .pytest_cache/
+
+# Local editable installs and packaging metadata
+*.egg-info/
+*.egg
+dist/
+.eggs/
+*.manifest

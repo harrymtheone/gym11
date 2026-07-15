@@ -288,7 +288,7 @@ kuka_dof_props['damping'].fill(100.0)
 # Set base to track pose zero to maintain posture
 kuka_dof_props["driveMode"][0] = gymapi.DOF_MODE_POS
 
-for env in envs:
+for i, env in enumerate(envs):
     gym.set_actor_dof_properties(env, kuka_handles[i], kuka_dof_props)
 
 # a helper function to initialize all envs
