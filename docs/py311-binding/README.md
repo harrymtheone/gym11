@@ -87,7 +87,8 @@ and gymtorch checks:
 python tools/py311_binding/run_regression.py
 ```
 
-Add GPU PhysX, GPU pipeline, and GPU terrain checks:
+Add GPU PhysX, GPU pipeline, GPU terrain, CUDA zero-copy, and live simulation
+root-state tensor write-back checks:
 
 ```bash
 python tools/py311_binding/run_regression.py --gpu
@@ -109,6 +110,8 @@ python isaacgym/python/tests/py39_binding/run_smoke.py \
 python isaacgym/python/tests/py39_binding/terrain_smoke.py \
   --require-python 3.11 --gpu --steps 100
 python isaacgym/python/tests/py311_binding/gymtorch_smoke.py
+python isaacgym/python/tests/py311_binding/gymtorch_smoke.py \
+  --cuda --simulation
 timeout --signal=TERM 20s \
   python isaacgym/python/examples/terrain_creation.py --physx
 ```

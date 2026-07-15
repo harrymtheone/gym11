@@ -7,7 +7,7 @@ Date: 2026-07-15
 - CPython 3.11.15
 - NumPy 2.2.6
 - SciPy 1.13.1
-- PyTorch 2.5.1+cpu
+- PyTorch 2.13.0+cu132
 - patchelf 0.17.2
 - NVIDIA GeForce RTX 3080
 - NVIDIA driver 595.71.05
@@ -40,8 +40,11 @@ The trampoline hash can vary with the compiler.
 - PASS: 20 GPU simulation create/destroy cycles, 2,000 total steps
 - PASS: CPU terrain mesh, 4,608 vertices, 8,930 triangles, 100 steps
 - PASS: GPU terrain mesh, 4,608 vertices, 8,930 triangles, 100 steps
-- PASS: `gymtorch` JIT compilation with PyTorch 2.5.1+cpu
+- PASS: `gymtorch` JIT compilation with PyTorch 2.13.0+cu132
 - PASS: zero-copy CPU tensor unwrap/wrap round-trip
+- PASS: zero-copy CUDA tensor unwrap/wrap round-trip
+- PASS: GPU simulation actor root-state tensor acquisition, in-place CUDA
+  modification, write-back, simulation step, and refresh
 - PASS: full `terrain_creation.py` bounded 20-second GPU PhysX run
 - PASS: Python 3.8 original binding regression
 - PASS: Python 3.9 compatibility binding regression

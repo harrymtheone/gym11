@@ -218,16 +218,21 @@ def main():
         )
 
     if not args.skip_gymtorch:
+        gymtorch_command = [
+            sys.executable,
+            str(
+                root
+                / "isaacgym/python/tests/py311_binding/gymtorch_smoke.py"
+            ),
+        ]
+        if args.gpu:
+            gymtorch_command.extend(["--cuda", "--simulation"])
         results.append(
             run_case(
-                "gymtorch zero-copy",
-                [
-                    sys.executable,
-                    str(
-                        root
-                        / "isaacgym/python/tests/py311_binding/gymtorch_smoke.py"
-                    ),
-                ],
+                "gymtorch GPU simulation interop"
+                if args.gpu
+                else "gymtorch CPU zero-copy",
+                gymtorch_command,
                 environment,
                 root,
             )
