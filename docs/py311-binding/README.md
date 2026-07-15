@@ -49,9 +49,13 @@ Create the target environment:
 
 ```bash
 conda create -y -n isaacgym-py311 \
-  python=3.11 pip numpy scipy patchelf ninja
+  python=3.11 pip "numpy<2" scipy patchelf ninja
 conda activate isaacgym-py311
 ```
+
+NumPy 2.x is not supported. Preview 4's bundled pybind11 produces invalid
+structured-array strides with NumPy 2.x, which corrupts DOF property records
+and can cause delayed native crashes.
 
 The local `terrain_utils.py` uses `RegularGridInterpolator`, so current SciPy
 versions are supported and no `<1.14` pin is required.

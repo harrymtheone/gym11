@@ -12,6 +12,8 @@ import sys
 import time
 from pathlib import Path
 
+import numpy as np
+
 
 def sha256(path):
     digest = hashlib.sha256()
@@ -91,6 +93,10 @@ def main():
     require(sys.version_info[:2] == (3, 11), "CPython 3.11 is required")
     require(sys.platform.startswith("linux"), "Linux is required")
     require(platform.machine() in ("x86_64", "AMD64"), "x86-64 is required")
+    require(
+        int(np.__version__.split(".", 1)[0]) < 2,
+        "NumPy <2 is required by the Preview 4 pybind11 binding",
+    )
     require(args.steps > 0, "--steps must be positive")
     require(args.stress_cycles > 0, "--stress-cycles must be positive")
 

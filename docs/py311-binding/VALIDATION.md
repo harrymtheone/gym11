@@ -5,7 +5,7 @@ Date: 2026-07-15
 ## Environment
 
 - CPython 3.11.15
-- NumPy 2.2.6
+- NumPy 1.26.4
 - SciPy 1.13.1
 - PyTorch 2.13.0+cu132
 - patchelf 0.17.2
@@ -30,6 +30,8 @@ The trampoline hash can vary with the compiler.
 
 ## Results
 
+- PASS: Kuka bin viewer, 16 environments and 10 objects per environment
+- PASS: DOF property records use the expected 40-byte item size and stride
 - PASS: one-command clean rebuild and manifest/hash verification
 - PASS: all Python C API symbols imported by `gym_38.so` are exported by the
   tested `libpython3.11.so.1.0`
@@ -51,6 +53,12 @@ The trampoline hash can vary with the compiler.
 
 The full terrain command exits with status 124 because `timeout` terminates the
 otherwise continuous viewer loop after 20 seconds.
+
+NumPy 2.2.6 is incompatible with Preview 4's bundled pybind11. It reports a
+40-byte DOF property dtype with a 16-byte array stride, causing overlapping
+records, invalid `hasLimits` values, and a delayed crash in
+`GymGraphicsNvf::updateMeshInstanceTransform`. NumPy is therefore pinned below
+version 2.
 
 ## Resolved non-binding failure
 
