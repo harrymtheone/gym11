@@ -60,6 +60,38 @@ records, invalid `hasLimits` values, and a delayed crash in
 `GymGraphicsNvf::updateMeshInstanceTransform`. NumPy is therefore pinned below
 version 2.
 
+## Experimental NumPy 2 binary patch
+
+An isolated, unsupported experiment in `tools/py311_binding/patch_numpy2.py`
+shows that this specific NumPy 2.2.6 failure can be corrected without changing
+the stable NumPy 1.x payload.
+
+Ghidra and DWARF confirm the old binding reads `PyArray_Descr` using the NumPy
+1.x layout:
+
+- `elsize`: 32-bit value at `+0x20`
+- legacy structured-dtype `names`: pointer at `+0x38`
+
+The NumPy 2 layout probe places the corresponding fields at:
+
+- `elsize`: 64-bit `npy_intp` at `+0x28`
+- legacy structured-dtype `names`: pointer at `+0x68`
+
+The experimental patch changes all three `elsize` loads and the one `names`
+check. Its output SHA-256 is
+`98bf725a168a0c2dee053790fec0b482ffa659517de4bd3f733b10c8febc5648`.
+Under CPython 3.11.15 and NumPy 2.2.6, the patched payload passes:
+
+- 40-byte DOF item size and 40-byte stride, with all 23 `hasLimits` values valid
+- Kuka bin 16-by-10 viewer crash path for a bounded 15-second run
+- CPU and GPU PhysX simulation, lifecycle stress, and terrain tests
+- CPU and CUDA `gymtorch` zero-copy round trips
+- GPU root-state tensor write-back and simulation
+
+This does not change the supported configuration. The patch is tied to one
+payload hash, hard-codes the NumPy 2 layout, and is not compatible with the
+NumPy 1.x layout. The production dependency therefore remains `numpy<2`.
+
 ## Resolved non-binding failure
 
 The first terrain run failed because SciPy 1.14 removed `interp2d`, which
